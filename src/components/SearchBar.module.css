@@ -7,49 +7,54 @@
   display: flex;
   align-items: center;
   width: 100%;
+  min-width: 0;
 }
 
 .searchIcon {
   position: absolute;
-  left: 14px;
+  left: 12px;
   color: #8A99B5;
   display: flex;
   align-items: center;
   pointer-events: none;
   transition: color 250ms ease;
+  z-index: 1;
 }
 
 .searchInput {
   width: 100%;
-  height: 52px;
-  padding: 0 44px 0 46px;
-  font-size: 0.95rem;
+  min-width: 0;
+  height: 48px;
+  padding: 0 40px 0 42px;
+  font-size: 0.9rem;
   font-weight: 400;
   color: #0D1B3E;
   background: #FFFFFF;
   border: 2px solid #D4DEF0;
-  border-radius: 14px;
+  border-radius: 13px;
   transition: border-color 250ms ease, box-shadow 250ms ease, background 250ms ease;
+  /* Prevent iOS zoom on focus (font-size must be >= 16px equivalent) */
+  font-size: max(16px, 0.9rem);
 }
 
 .searchInput::placeholder {
   color: #8A99B5;
+  font-size: 0.85rem;
 }
 
 .searchInput:focus {
   border-color: #0057A8;
-  box-shadow: 0 0 0 4px rgba(0, 87, 168, 0.1);
+  box-shadow: 0 0 0 3px rgba(0, 87, 168, 0.1);
   background: #FAFCFF;
 }
 
-.searchInput:focus + .searchIcon,
 .searchWrapper:focus-within .searchIcon {
   color: #0057A8;
 }
 
 .clearBtn {
   position: absolute;
-  right: 12px;
+  right: 10px;
   width: 28px;
   height: 28px;
   display: flex;
@@ -60,6 +65,8 @@
   background: #EEF3FA;
   cursor: pointer;
   transition: background 200ms ease, color 200ms ease;
+  touch-action: manipulation;
+  flex-shrink: 0;
 }
 
 .clearBtn:hover {
@@ -69,7 +76,8 @@
 
 @media (max-width: 480px) {
   .searchInput {
-    height: 48px;
-    font-size: 0.9rem;
+    height: 46px;
+    border-radius: 12px;
+    padding: 0 38px 0 40px;
   }
 }

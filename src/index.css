@@ -2,6 +2,12 @@
    EXPANSE PHARMACEUTICAL – Global Styles
    ========================================= */
 
+/* Prevent horizontal overflow on all screens */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 /* CSS Custom Properties (Design Tokens) */
 :root {
   /* Brand Colors */
@@ -84,12 +90,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 img,

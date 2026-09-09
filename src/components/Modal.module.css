@@ -9,11 +9,12 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
-  align-items: center;
+  align-items: flex-end;        /* bottom-sheet on mobile */
   justify-content: center;
   z-index: 1000;
-  padding: 20px;
+  padding: 0;
   animation: backdropIn 250ms ease;
+  overflow: hidden;
 }
 
 @keyframes backdropIn {
@@ -23,21 +24,58 @@
 
 .modal {
   background: #FFFFFF;
-  border-radius: 20px;
-  box-shadow: 0 32px 80px rgba(0, 30, 90, 0.3);
+  border-radius: 24px 24px 0 0;  /* bottom-sheet style on mobile */
+  box-shadow: 0 -8px 48px rgba(0, 30, 90, 0.25);
   width: 100%;
-  max-width: 640px;
+  max-width: 100%;
   padding: 0;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 40px);
+  max-height: 92vh;
   overflow-y: auto;
-  animation: modalIn 320ms cubic-bezier(0.34, 1.4, 0.64, 1);
+  overflow-x: hidden;
+  animation: sheetUp 320ms cubic-bezier(0.34, 1.2, 0.64, 1);
+  -webkit-overflow-scrolling: touch;
 }
 
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(0.9) translateY(24px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+@keyframes sheetUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* On larger screens — centered card */
+@media (min-width: 600px) {
+  .backdrop {
+    align-items: center;
+    padding: 20px;
+  }
+
+  .modal {
+    border-radius: 20px;
+    max-width: 640px;
+    max-height: calc(100vh - 40px);
+    animation: modalIn 320ms cubic-bezier(0.34, 1.4, 0.64, 1);
+    box-shadow: 0 32px 80px rgba(0, 30, 90, 0.3);
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(24px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+}
+
+/* ── Drag handle (mobile affordance) ── */
+.dragHandle {
+  width: 36px;
+  height: 4px;
+  background: #D4DEF0;
+  border-radius: 9999px;
+  margin: 10px auto 0;
+  flex-shrink: 0;
+}
+
+@media (min-width: 600px) {
+  .dragHandle { display: none; }
 }
 
 /* ── Invoice Header ── */
@@ -45,24 +83,26 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 28px 20px;
+  padding: 18px 20px 16px;
   background: linear-gradient(135deg, #0D2B6B 0%, #0057A8 60%, #0071CE 100%);
-  border-radius: 20px 20px 0 0;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .brandBlock {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
 }
 
 .brandLogo {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   background: rgba(255,255,255,0.18);
-  border-radius: 12px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,26 +111,31 @@
 }
 
 .brandName {
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 800;
   color: #FFFFFF;
   letter-spacing: -0.01em;
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .brandTagline {
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   color: rgba(255,255,255,0.7);
   font-weight: 400;
-  margin-top: 2px;
+  margin-top: 1px;
+  white-space: nowrap;
 }
 
 .invoiceMeta {
   text-align: right;
+  flex-shrink: 0;
 }
 
 .invoiceTitle {
-  font-size: 0.72rem;
+  font-size: 0.62rem;
   font-weight: 800;
   color: rgba(255,255,255,0.65);
   letter-spacing: 0.14em;
@@ -98,7 +143,7 @@
 }
 
 .invoiceNo {
-  font-size: 1.1rem;
+  font-size: 0.92rem;
   font-weight: 800;
   color: #FFFFFF;
   letter-spacing: 0.02em;
@@ -107,32 +152,48 @@
 
 /* ── Details Row ── */
 .detailsRow {
-  display: flex;
-  gap: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   border-bottom: 1px solid #E8EDF6;
+  flex-shrink: 0;
 }
 
 .detailBox {
-  flex: 1;
-  padding: 14px 18px;
+  padding: 10px 14px;
   border-right: 1px solid #E8EDF6;
 }
 
-.detailBox:last-child {
+.detailBox:nth-child(2n) {
   border-right: none;
 }
 
+.detailBox:nth-child(n+3) {
+  border-top: 1px solid #E8EDF6;
+}
+
+@media (min-width: 500px) {
+  .detailsRow {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .detailBox:nth-child(n+3) {
+    border-top: none;
+  }
+  .detailBox:last-child {
+    border-right: none;
+  }
+}
+
 .detailLabel {
-  font-size: 0.63rem;
+  font-size: 0.58rem;
   font-weight: 700;
   color: #8A99B5;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
 .detailValue {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #0D1B3E;
 }
@@ -142,9 +203,9 @@
   background: #FFF3E0;
   color: #E65100;
   border: 1px solid #FFCC80;
-  padding: 2px 8px;
+  padding: 1px 7px;
   border-radius: 9999px;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 700;
 }
 
@@ -152,34 +213,39 @@
 .billToRow {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
-  padding: 16px 28px;
+  gap: 12px;
+  padding: 12px 20px;
   flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .billBlock {
   flex: 1;
-  min-width: 140px;
+  min-width: 120px;
+}
+
+.billBlock:last-child {
+  text-align: right;
 }
 
 .billLabel {
-  font-size: 0.63rem;
+  font-size: 0.58rem;
   font-weight: 700;
   color: #8A99B5;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .billName {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: #0D1B3E;
   line-height: 1.3;
 }
 
 .billSub {
-  font-size: 0.74rem;
+  font-size: 0.68rem;
   color: #5A6A8A;
   margin-top: 1px;
   line-height: 1.5;
@@ -190,25 +256,29 @@
   width: 100%;
   height: 1px;
   background: linear-gradient(90deg, transparent, #D4DEF0, transparent);
+  flex-shrink: 0;
 }
 
 .dividerThin {
   width: 100%;
   height: 1px;
   background: #E8EDF6;
-  margin: 8px 0;
+  margin: 6px 0;
 }
 
 /* ── Table ── */
 .tableWrapper {
-  padding: 0 28px;
-  overflow-x: auto;
+  padding: 0 16px;
+  overflow-x: auto;           /* horizontal scroll only if needed */
+  -webkit-overflow-scrolling: touch;
+  flex-shrink: 0;
 }
 
 .table {
   width: 100%;
+  min-width: 360px;          /* prevent collapse on tiny screens */
   border-collapse: collapse;
-  font-size: 0.84rem;
+  font-size: 0.82rem;
 }
 
 .tableHead {
@@ -216,16 +286,17 @@
 }
 
 .tableHead th {
-  padding: 10px 12px;
-  font-size: 0.66rem;
+  padding: 9px 10px;
+  font-size: 0.6rem;
   font-weight: 700;
   color: #5A6A8A;
   text-transform: uppercase;
   letter-spacing: 0.07em;
   border-bottom: 2px solid #D4DEF0;
+  white-space: nowrap;
 }
 
-.thItem { text-align: center; width: 36px; }
+.thItem { text-align: center; width: 28px; }
 .thMed  { text-align: left; }
 .thNum  { text-align: right; }
 
@@ -240,35 +311,38 @@
 
 .tdIdx {
   text-align: center;
-  padding: 11px 8px;
-  font-size: 0.72rem;
+  padding: 10px 6px;
+  font-size: 0.68rem;
   font-weight: 700;
   color: #8A99B5;
   border-bottom: 1px solid #EEF2FA;
 }
 
 .tdMed {
-  padding: 11px 12px;
+  padding: 10px 10px;
   border-bottom: 1px solid #EEF2FA;
-  min-width: 180px;
 }
 
 .medName {
   font-weight: 600;
   color: #0D1B3E;
   line-height: 1.3;
-  font-size: 0.84rem;
+  font-size: 0.82rem;
 }
 
 .medDesc {
-  font-size: 0.7rem;
+  font-size: 0.64rem;
   color: #8A99B5;
-  margin-top: 2px;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
 }
 
 .tdNum {
   text-align: right;
-  padding: 11px 12px;
+  padding: 10px 10px;
   color: #3A4A6A;
   font-weight: 500;
   border-bottom: 1px solid #EEF2FA;
@@ -279,15 +353,15 @@
   display: inline-block;
   background: #EBF2FF;
   color: #0057A8;
-  border-radius: 6px;
-  padding: 1px 8px;
+  border-radius: 5px;
+  padding: 1px 7px;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
 }
 
 .tdTotal {
   text-align: right;
-  padding: 11px 12px;
+  padding: 10px 10px;
   font-weight: 700;
   color: #0D1B3E;
   border-bottom: 1px solid #EEF2FA;
@@ -296,92 +370,98 @@
 
 /* ── Totals ── */
 .totalsSection {
-  padding: 14px 28px 10px;
+  padding: 12px 16px 8px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .totalRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3px 0;
+  padding: 2px 0;
+  gap: 8px;
 }
 
 .totalLabel {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: #5A6A8A;
   font-weight: 500;
 }
 
 .totalValue {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: #0D1B3E;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .grandRow {
-  padding: 10px 16px;
+  padding: 10px 14px;
   background: linear-gradient(135deg, #0D2B6B 0%, #0057A8 100%);
   border-radius: 12px;
   margin-top: 4px;
 }
 
 .grandLabel {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   color: rgba(255,255,255,0.9);
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  flex-wrap: wrap;
 }
 
 .currencyTag {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 800;
   background: rgba(255,255,255,0.2);
   color: rgba(255,255,255,0.9);
-  padding: 2px 6px;
-  border-radius: 5px;
-  letter-spacing: 0.05em;
+  padding: 2px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
 }
 
 .grandValue {
-  font-size: 1.25rem;
+  font-size: clamp(1rem, 4vw, 1.25rem);
   color: #FFFFFF;
   font-weight: 800;
   letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 /* ── Terms ── */
 .termsBlock {
-  margin: 10px 28px 0;
-  padding: 12px 16px;
+  margin: 8px 16px 0;
+  padding: 10px 14px;
   background: #F8FAFF;
   border: 1px solid #D4DEF0;
   border-radius: 10px;
+  flex-shrink: 0;
 }
 
 .termsTitle {
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 800;
   color: #5A6A8A;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .termsList {
   margin: 0;
-  padding-left: 16px;
+  padding-left: 14px;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
 .termsList li {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: #6A7A9A;
   line-height: 1.5;
 }
@@ -390,13 +470,14 @@
 .footerNote {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  margin: 12px 28px 0;
-  padding: 10px 14px;
+  gap: 7px;
+  margin: 8px 16px 0;
+  padding: 9px 12px;
   background: #EBF2FF;
   border-radius: 10px;
   border: 1px solid #C5D4EA;
   color: #0057A8;
+  flex-shrink: 0;
 }
 
 .footerNote svg {
@@ -405,7 +486,7 @@
 }
 
 .footerNote span {
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-weight: 500;
   line-height: 1.4;
 }
@@ -414,48 +495,51 @@
 .actions {
   display: flex;
   gap: 10px;
-  padding: 16px 28px 24px;
+  padding: 12px 16px 20px;
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
   flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .printBtn {
   flex: 1;
-  min-width: 130px;
+  min-width: 120px;
   height: 46px;
   background: #F4F7FC;
   color: #0D1B3E;
   border: 2px solid #D4DEF0;
   border-radius: 12px;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  transition: border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
+  gap: 6px;
+  transition: border-color 200ms ease, background 200ms ease;
+  white-space: nowrap;
 }
 
 .printBtn:hover {
   border-color: #9BB8DC;
   background: #EBF2FF;
-  box-shadow: 0 2px 10px rgba(0,87,168,0.1);
 }
 
 .closeBtn {
   flex: 2;
-  min-width: 160px;
+  min-width: 140px;
   height: 46px;
   background: linear-gradient(135deg, #0057A8 0%, #003E7E 100%);
   color: #FFFFFF;
   border: none;
   border-radius: 12px;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
   transition: opacity 200ms ease, transform 150ms ease, box-shadow 200ms ease;
   box-shadow: 0 4px 16px rgba(0, 87, 168, 0.3);
+  white-space: nowrap;
 }
 
 .closeBtn:hover {
@@ -468,35 +552,78 @@
   transform: translateY(0);
 }
 
-@media (max-width: 560px) {
+/* ── Large screen overrides (restore card layout) ── */
+@media (min-width: 600px) {
   .invoiceHeader {
-    padding: 20px 18px 16px;
+    padding: 22px 28px 18px;
+  }
+
+  .brandLogo {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .brandName {
+    font-size: 1rem;
+  }
+
+  .brandTagline {
+    font-size: 0.68rem;
+  }
+
+  .invoiceNo {
+    font-size: 1.05rem;
+  }
+
+  .billToRow {
+    padding: 14px 28px;
   }
 
   .tableWrapper {
-    padding: 0 14px;
+    padding: 0 28px;
+  }
+
+  .table {
+    min-width: unset;
+  }
+
+  .tableHead th {
+    padding: 10px 12px;
+    font-size: 0.65rem;
+  }
+
+  .tdIdx, .tdMed, .tdNum, .tdTotal {
+    padding: 11px 12px;
+  }
+
+  .medDesc {
+    max-width: none;
   }
 
   .totalsSection {
-    padding: 14px 14px 10px;
+    padding: 14px 28px 10px;
   }
 
-  .billToRow,
-  .termsBlock,
+  .termsBlock {
+    margin: 10px 28px 0;
+  }
+
   .footerNote {
-    margin-left: 14px;
-    margin-right: 14px;
+    margin: 10px 28px 0;
   }
 
   .actions {
-    padding: 14px 14px 20px;
+    padding: 14px 28px 24px;
   }
 
-  .detailBox {
-    padding: 10px 12px;
+  .printBtn {
+    height: 46px;
+    font-size: 0.85rem;
   }
 
-  .grandValue {
-    font-size: 1.05rem;
+  .closeBtn {
+    height: 46px;
+    font-size: 0.9rem;
   }
 }

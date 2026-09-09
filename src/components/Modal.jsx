@@ -58,6 +58,8 @@ export default function Modal({ selectedMedicines, quantities, onClose }) {
       aria-labelledby="modal-title"
     >
       <div className={styles.modal}>
+        {/* Drag handle — visible on mobile only */}
+        <div className={styles.dragHandle} aria-hidden="true" />
 
         {/* ── Invoice Header ── */}
         <div className={styles.invoiceHeader}>

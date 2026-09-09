@@ -7,23 +7,28 @@
   display: flex;
   flex-direction: column;
   background: #F4F7FC;
+  overflow-x: hidden;
 }
 
 /* ── Main ── */
 .main {
   flex: 1;
   padding-bottom: 32px;
+  min-width: 0;
+  width: 100%;
 }
 
 .container {
   max-width: 720px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 16px;
+  width: 100%;
+  min-width: 0;
 }
 
 /* ── Hero Section ── */
 .hero {
-  padding: 32px 0 24px;
+  padding: 28px 0 20px;
   text-align: center;
 }
 
@@ -36,15 +41,16 @@
   border: 1px solid rgba(0, 87, 168, 0.2);
   border-radius: 9999px;
   padding: 5px 14px;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+  white-space: nowrap;
 }
 
 .heroTitle {
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 5vw, 2rem);
   font-weight: 800;
   color: #0D1B3E;
   letter-spacing: -0.03em;
@@ -53,26 +59,28 @@
 }
 
 .heroSubtitle {
-  font-size: 0.95rem;
+  font-size: clamp(0.82rem, 2.5vw, 0.95rem);
   color: #5A6A8A;
   line-height: 1.6;
-  max-width: 380px;
+  max-width: 360px;
   margin: 0 auto;
+  padding: 0 8px;
 }
 
 /* ── Controls Row ── */
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 18px;
 }
 
 .selectionSummary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 /* Count Badge */
@@ -80,14 +88,15 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 7px 14px;
+  padding: 6px 12px;
   background: #FFFFFF;
   border: 1.5px solid #D4DEF0;
   border-radius: 9999px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: #5A6A8A;
   font-weight: 500;
   transition: border-color 250ms ease, background 250ms ease, color 250ms ease;
+  white-space: nowrap;
 }
 
 .countBadge strong {
@@ -107,12 +116,14 @@
 
 /* Clear All Button */
 .clearAllBtn {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #8A99B5;
-  padding: 6px 12px;
+  padding: 6px 10px;
   border-radius: 8px;
   transition: background 200ms ease, color 200ms ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .clearAllBtn:hover {
@@ -122,7 +133,8 @@
 
 /* ── Medicine Grid ── */
 .listSection {
-  /* Container for the list */
+  width: 100%;
+  min-width: 0;
 }
 
 .medicineGrid {
@@ -130,6 +142,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
+  min-width: 0;
 }
 
 /* ── Empty State ── */
@@ -138,7 +152,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: 50px 20px;
   text-align: center;
   gap: 10px;
 }
@@ -157,7 +171,7 @@
 
 /* ── Spacer for sticky bar ── */
 .stickySpacing {
-  height: 100px;
+  height: 90px;
 }
 
 /* ── Sticky Bottom Bar ── */
@@ -166,14 +180,15 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
+  width: 100%;
+  background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid #D4DEF0;
   box-shadow: 0 -4px 24px rgba(0, 40, 100, 0.1);
   z-index: 90;
-  padding: 14px 20px;
-  padding-bottom: max(14px, env(safe-area-inset-bottom));
+  padding: 12px 16px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
 }
 
 .stickyBarInner {
@@ -182,35 +197,40 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
+  width: 100%;
 }
 
 .stickyCount {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   flex-shrink: 0;
+  min-width: 0;
 }
 
 .stickyCountPill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 26px;
-  height: 26px;
+  min-width: 24px;
+  height: 24px;
   padding: 0 6px;
   background: linear-gradient(135deg, #0057A8, #003E7E);
   color: white;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 800;
   border-radius: 9999px;
+  flex-shrink: 0;
 }
 
 .stickyCountText {
-  font-size: 0.83rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: #5A6A8A;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Request Quotation Button */
@@ -218,28 +238,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  height: 52px;
-  padding: 0 28px;
+  gap: 8px;
+  height: 48px;
+  padding: 0 20px;
   background: linear-gradient(135deg, #0057A8 0%, #003E7E 100%);
   color: #FFFFFF;
   border: none;
-  border-radius: 14px;
-  font-size: 0.95rem;
+  border-radius: 13px;
+  font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 87, 168, 0.35);
+  box-shadow: 0 4px 18px rgba(0, 87, 168, 0.35);
   transition: opacity 200ms ease, transform 150ms ease, box-shadow 200ms ease;
   white-space: nowrap;
   flex: 1;
-  max-width: 300px;
+  max-width: 280px;
+  min-width: 0;
 }
 
 .quotationBtn:hover:not(:disabled) {
   opacity: 0.92;
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(0, 87, 168, 0.45);
+  box-shadow: 0 6px 22px rgba(0, 87, 168, 0.45);
 }
 
 .quotationBtn:active:not(:disabled) {
@@ -254,38 +275,62 @@
 }
 
 /* ── Responsive Adjustments ── */
-@media (max-width: 600px) {
-  .heroTitle {
-    font-size: 1.6rem;
+@media (max-width: 520px) {
+  .container {
+    padding: 0 12px;
   }
 
   .hero {
-    padding: 24px 0 18px;
+    padding: 20px 0 16px;
+  }
+
+  .stickyBar {
+    padding: 10px 12px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
   }
 
   .stickyBarInner {
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
   }
 
   .quotationBtn {
-    width: 100%;
     max-width: none;
-    height: 54px;
-    font-size: 1rem;
+    flex: 1;
+    height: 46px;
+    font-size: 0.85rem;
+    padding: 0 14px;
+    gap: 6px;
   }
 
-  .stickyCount {
-    width: 100%;
+  /* Hide icon on very small screens if needed */
+  .quotationBtn svg {
+    flex-shrink: 0;
+  }
+
+  .stickySpacing {
+    height: 80px;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 380px) {
   .container {
-    padding: 0 14px;
+    padding: 0 10px;
   }
 
-  .heroTitle {
-    font-size: 1.4rem;
+  .stickyBarInner {
+    gap: 8px;
+  }
+
+  .stickyCountText {
+    font-size: 0.72rem;
+  }
+
+  .quotationBtn {
+    font-size: 0.8rem;
+    padding: 0 10px;
+    gap: 5px;
+    height: 44px;
+    border-radius: 11px;
   }
 }
