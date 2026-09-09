@@ -189,7 +189,7 @@ export default function App() {
       )}
 
       {/* ── Chatbot ── */}
-      <Chatbot />
+      <Chatbot isModalOpen={showModal} />
     </div>
   )
 }

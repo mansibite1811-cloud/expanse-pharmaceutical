@@ -128,7 +128,7 @@ export default function Modal({ selectedMedicines, quantities, onClose }) {
               <tr className={styles.tableHead}>
                 <th className={styles.thItem}>#</th>
                 <th className={styles.thMed}>Medicine / Description</th>
-                <th className={styles.thNum}>Unit Price</th>
+                <th className={`${styles.thNum} ${styles.thUnitPrice}`}>Unit Price</th>
                 <th className={styles.thNum}>Qty</th>
                 <th className={styles.thNum}>Total</th>
               </tr>
@@ -139,9 +139,12 @@ export default function Modal({ selectedMedicines, quantities, onClose }) {
                   <td className={styles.tdIdx}>{idx + 1}</td>
                   <td className={styles.tdMed}>
                     <div className={styles.medName}>{item.name}</div>
-                    <div className={styles.medDesc}>{item.description} · {item.unit}</div>
+                    {/* Desktop: shows description · unit */}
+                    <div className={`${styles.medMeta} ${styles.medMetaDesktop}`}>{item.description} · {item.unit}</div>
+                    {/* Mobile: shows $price × qty since unit price col is hidden */}
+                    <div className={`${styles.medMeta} ${styles.medMetaMobile}`}>${item.unitPrice.toFixed(2)} × {item.qty}</div>
                   </td>
-                  <td className={styles.tdNum}>${item.unitPrice.toFixed(2)}</td>
+                  <td className={`${styles.tdNum} ${styles.tdUnitPrice}`}>${item.unitPrice.toFixed(2)}</td>
                   <td className={styles.tdNum}>
                     <span className={styles.qtyChip}>{item.qty}</span>
                   </td>

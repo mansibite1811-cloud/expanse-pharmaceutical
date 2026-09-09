@@ -1,19 +1,21 @@
 /* =========================================
    INVOICE / QUOTATION MODAL STYLES
+   Mobile-first, then desktop overrides
    ========================================= */
 
+/* ── Backdrop ── */
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 20, 60, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(0, 20, 60, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
-  align-items: flex-end;        /* bottom-sheet on mobile */
+  align-items: flex-end;          /* bottom-sheet on mobile */
   justify-content: center;
   z-index: 1000;
   padding: 0;
-  animation: backdropIn 250ms ease;
+  animation: backdropIn 220ms ease;
   overflow: hidden;
 }
 
@@ -22,87 +24,66 @@
   to   { opacity: 1; }
 }
 
+/* ── Modal shell ── */
 .modal {
   background: #FFFFFF;
-  border-radius: 24px 24px 0 0;  /* bottom-sheet style on mobile */
-  box-shadow: 0 -8px 48px rgba(0, 30, 90, 0.25);
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -8px 40px rgba(0, 30, 90, 0.25);
   width: 100%;
   max-width: 100%;
   padding: 0;
   display: flex;
   flex-direction: column;
-  max-height: 92vh;
+  /* 90vh leaves some backdrop visible so user sees the close affordance */
+  max-height: 90vh;
   overflow-y: auto;
   overflow-x: hidden;
-  animation: sheetUp 320ms cubic-bezier(0.34, 1.2, 0.64, 1);
+  animation: sheetUp 300ms cubic-bezier(0.32, 1.1, 0.64, 1);
   -webkit-overflow-scrolling: touch;
 }
 
 @keyframes sheetUp {
-  from { opacity: 0; transform: translateY(40px); }
+  from { opacity: 0; transform: translateY(50px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* On larger screens — centered card */
-@media (min-width: 600px) {
-  .backdrop {
-    align-items: center;
-    padding: 20px;
-  }
-
-  .modal {
-    border-radius: 20px;
-    max-width: 640px;
-    max-height: calc(100vh - 40px);
-    animation: modalIn 320ms cubic-bezier(0.34, 1.4, 0.64, 1);
-    box-shadow: 0 32px 80px rgba(0, 30, 90, 0.3);
-  }
-
-  @keyframes modalIn {
-    from { opacity: 0; transform: scale(0.9) translateY(24px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
-  }
-}
-
-/* ── Drag handle (mobile affordance) ── */
+/* ── Drag handle ── */
 .dragHandle {
-  width: 36px;
+  width: 40px;
   height: 4px;
-  background: #D4DEF0;
+  background: rgba(255,255,255,0.45);
   border-radius: 9999px;
-  margin: 10px auto 0;
+  margin: 10px auto 6px;
   flex-shrink: 0;
 }
 
-@media (min-width: 600px) {
-  .dragHandle { display: none; }
-}
-
-/* ── Invoice Header ── */
+/* ==============================================
+   INVOICE HEADER
+   Mobile: stacked vertically (brand → quot no.)
+   Desktop: side-by-side
+   ============================================== */
 .invoiceHeader {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 20px 16px;
+  flex-direction: column;       /* stack on mobile */
+  gap: 0;
+  padding: 16px 16px 14px;
   background: linear-gradient(135deg, #0D2B6B 0%, #0057A8 60%, #0071CE 100%);
-  gap: 12px;
-  flex-wrap: wrap;
   flex-shrink: 0;
 }
 
+/* Brand row */
 .brandBlock {
   display: flex;
   align-items: center;
   gap: 10px;
   min-width: 0;
-  flex: 1;
 }
 
 .brandLogo {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   background: rgba(255,255,255,0.18);
-  border-radius: 10px;
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,7 +92,7 @@
 }
 
 .brandName {
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 800;
   color: #FFFFFF;
   letter-spacing: -0.01em;
@@ -122,38 +103,47 @@
 }
 
 .brandTagline {
-  font-size: 0.62rem;
-  color: rgba(255,255,255,0.7);
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.65);
   font-weight: 400;
   margin-top: 1px;
   white-space: nowrap;
 }
 
+/* Quotation meta — shown as a compact one-liner below brand on mobile */
 .invoiceMeta {
-  text-align: right;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.18);
 }
 
 .invoiceTitle {
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 800;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.6);
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .invoiceNo {
-  font-size: 0.92rem;
-  font-weight: 800;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: #FFFFFF;
-  letter-spacing: 0.02em;
-  margin-top: 2px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── Details Row ── */
 .detailsRow {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;   /* 2-col on mobile */
   border-bottom: 1px solid #E8EDF6;
   flex-shrink: 0;
 }
@@ -163,28 +153,13 @@
   border-right: 1px solid #E8EDF6;
 }
 
-.detailBox:nth-child(2n) {
-  border-right: none;
-}
-
-.detailBox:nth-child(n+3) {
-  border-top: 1px solid #E8EDF6;
-}
-
-@media (min-width: 500px) {
-  .detailsRow {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .detailBox:nth-child(n+3) {
-    border-top: none;
-  }
-  .detailBox:last-child {
-    border-right: none;
-  }
-}
+/* Remove right border on the second column of each row */
+.detailBox:nth-child(2n) { border-right: none; }
+/* Add top border from the 3rd item onward */
+.detailBox:nth-child(n+3) { border-top: 1px solid #E8EDF6; }
 
 .detailLabel {
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   font-weight: 700;
   color: #8A99B5;
   text-transform: uppercase;
@@ -205,7 +180,7 @@
   border: 1px solid #FFCC80;
   padding: 1px 7px;
   border-radius: 9999px;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 700;
 }
 
@@ -214,14 +189,14 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 20px;
-  flex-wrap: wrap;
+  padding: 11px 16px;
+  flex-wrap: nowrap;
   flex-shrink: 0;
 }
 
 .billBlock {
   flex: 1;
-  min-width: 120px;
+  min-width: 0;
 }
 
 .billBlock:last-child {
@@ -229,7 +204,7 @@
 }
 
 .billLabel {
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   font-weight: 700;
   color: #8A99B5;
   text-transform: uppercase;
@@ -238,17 +213,18 @@
 }
 
 .billName {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #0D1B3E;
   line-height: 1.3;
 }
 
 .billSub {
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   color: #5A6A8A;
   margin-top: 1px;
   line-height: 1.5;
+  word-break: break-all;
 }
 
 /* ── Dividers ── */
@@ -266,19 +242,20 @@
   margin: 6px 0;
 }
 
-/* ── Table ── */
+/* ── Table wrapper ── */
 .tableWrapper {
-  padding: 0 16px;
-  overflow-x: auto;           /* horizontal scroll only if needed */
-  -webkit-overflow-scrolling: touch;
+  padding: 0 14px;
+  overflow-x: hidden;      /* no horizontal scroll — we hide columns instead */
   flex-shrink: 0;
+  width: 100%;
 }
 
+/* ── Table ── */
 .table {
   width: 100%;
-  min-width: 360px;          /* prevent collapse on tiny screens */
   border-collapse: collapse;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  table-layout: fixed;     /* columns honour declared widths */
 }
 
 .tableHead {
@@ -286,67 +263,79 @@
 }
 
 .tableHead th {
-  padding: 9px 10px;
-  font-size: 0.6rem;
+  padding: 8px 8px;
+  font-size: 0.58rem;
   font-weight: 700;
   color: #5A6A8A;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.06em;
   border-bottom: 2px solid #D4DEF0;
   white-space: nowrap;
+  overflow: hidden;
 }
 
-.thItem { text-align: center; width: 28px; }
-.thMed  { text-align: left; }
-.thNum  { text-align: right; }
+/* Column widths (mobile, no unit-price col) */
+.thItem  { text-align: center; width: 26px; }
+.thMed   { text-align: left; }          /* flex: takes remaining space */
+.thNum   { text-align: right; width: 44px; }
 
-.tableRow {
-  transition: background 150ms ease;
-}
+/* Unit price column — hidden on mobile, shown on wider screens */
+.thUnitPrice { display: none; }
+.tdUnitPrice { display: none; }
 
-.rowEven { background: #FFFFFF; }
-.rowOdd  { background: #FAFBFE; }
-
+.tableRow { transition: background 150ms ease; }
+.rowEven  { background: #FFFFFF; }
+.rowOdd   { background: #FAFBFE; }
 .tableRow:hover { background: #F0F5FF; }
 
 .tdIdx {
   text-align: center;
-  padding: 10px 6px;
-  font-size: 0.68rem;
+  padding: 9px 4px;
+  font-size: 0.64rem;
   font-weight: 700;
   color: #8A99B5;
   border-bottom: 1px solid #EEF2FA;
+  vertical-align: middle;
 }
 
 .tdMed {
-  padding: 10px 10px;
+  padding: 9px 8px;
   border-bottom: 1px solid #EEF2FA;
+  overflow: hidden;
 }
 
 .medName {
   font-weight: 600;
   color: #0D1B3E;
   line-height: 1.3;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.medDesc {
-  font-size: 0.64rem;
+/* On mobile: show "qty × $price" as a sub-line in the name cell */
+.medMeta {
+  font-size: 0.62rem;
   color: #8A99B5;
   margin-top: 1px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 160px;
 }
+
+/* This sub-line only visible on mobile (unit price col is hidden) */
+.medMetaMobile { display: block; }
+.medMetaDesktop { display: none; }
 
 .tdNum {
   text-align: right;
-  padding: 10px 10px;
+  padding: 9px 8px;
   color: #3A4A6A;
   font-weight: 500;
   border-bottom: 1px solid #EEF2FA;
   white-space: nowrap;
+  vertical-align: middle;
 }
 
 .qtyChip {
@@ -354,23 +343,24 @@
   background: #EBF2FF;
   color: #0057A8;
   border-radius: 5px;
-  padding: 1px 7px;
+  padding: 1px 6px;
   font-weight: 700;
-  font-size: 0.76rem;
+  font-size: 0.72rem;
 }
 
 .tdTotal {
   text-align: right;
-  padding: 10px 10px;
+  padding: 9px 8px;
   font-weight: 700;
   color: #0D1B3E;
   border-bottom: 1px solid #EEF2FA;
   white-space: nowrap;
+  vertical-align: middle;
 }
 
 /* ── Totals ── */
 .totalsSection {
-  padding: 12px 16px 8px;
+  padding: 11px 14px 8px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -386,20 +376,20 @@
 }
 
 .totalLabel {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: #5A6A8A;
   font-weight: 500;
 }
 
 .totalValue {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: #0D1B3E;
   font-weight: 600;
   white-space: nowrap;
 }
 
 .grandRow {
-  padding: 10px 14px;
+  padding: 11px 14px;
   background: linear-gradient(135deg, #0D2B6B 0%, #0057A8 100%);
   border-radius: 12px;
   margin-top: 4px;
@@ -411,22 +401,24 @@
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 .currencyTag {
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   font-weight: 800;
   background: rgba(255,255,255,0.2);
   color: rgba(255,255,255,0.9);
   padding: 2px 5px;
   border-radius: 4px;
   letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .grandValue {
-  font-size: clamp(1rem, 4vw, 1.25rem);
+  font-size: clamp(0.95rem, 3.5vw, 1.2rem);
   color: #FFFFFF;
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -435,8 +427,8 @@
 
 /* ── Terms ── */
 .termsBlock {
-  margin: 8px 16px 0;
-  padding: 10px 14px;
+  margin: 8px 14px 0;
+  padding: 10px 12px;
   background: #F8FAFF;
   border: 1px solid #D4DEF0;
   border-radius: 10px;
@@ -444,7 +436,7 @@
 }
 
 .termsTitle {
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-weight: 800;
   color: #5A6A8A;
   text-transform: uppercase;
@@ -461,7 +453,7 @@
 }
 
 .termsList li {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   color: #6A7A9A;
   line-height: 1.5;
 }
@@ -471,7 +463,7 @@
   display: flex;
   align-items: flex-start;
   gap: 7px;
-  margin: 8px 16px 0;
+  margin: 8px 14px 0;
   padding: 9px 12px;
   background: #EBF2FF;
   border-radius: 10px;
@@ -480,44 +472,41 @@
   flex-shrink: 0;
 }
 
-.footerNote svg {
-  flex-shrink: 0;
-  margin-top: 1px;
-}
+.footerNote svg { flex-shrink: 0; margin-top: 1px; }
 
 .footerNote span {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
-/* ── Actions ── */
+/* ── Actions (buttons) ── */
 .actions {
   display: flex;
-  gap: 10px;
-  padding: 12px 16px 20px;
+  flex-direction: column;        /* stack on mobile */
+  gap: 9px;
+  padding: 12px 14px 20px;
   padding-bottom: max(20px, env(safe-area-inset-bottom));
-  flex-wrap: wrap;
   flex-shrink: 0;
 }
 
 .printBtn {
-  flex: 1;
-  min-width: 120px;
+  width: 100%;
   height: 46px;
   background: #F4F7FC;
   color: #0D1B3E;
   border: 2px solid #D4DEF0;
   border-radius: 12px;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 7px;
   transition: border-color 200ms ease, background 200ms ease;
   white-space: nowrap;
+  touch-action: manipulation;
 }
 
 .printBtn:hover {
@@ -526,20 +515,20 @@
 }
 
 .closeBtn {
-  flex: 2;
-  min-width: 140px;
-  height: 46px;
+  width: 100%;
+  height: 50px;
   background: linear-gradient(135deg, #0057A8 0%, #003E7E 100%);
   color: #FFFFFF;
   border: none;
   border-radius: 12px;
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
   transition: opacity 200ms ease, transform 150ms ease, box-shadow 200ms ease;
   box-shadow: 0 4px 16px rgba(0, 87, 168, 0.3);
   white-space: nowrap;
+  touch-action: manipulation;
 }
 
 .closeBtn:hover {
@@ -548,82 +537,105 @@
   box-shadow: 0 6px 20px rgba(0, 87, 168, 0.4);
 }
 
-.closeBtn:active {
-  transform: translateY(0);
-}
+.closeBtn:active { transform: translateY(0); }
 
-/* ── Large screen overrides (restore card layout) ── */
+/* ==============================================
+   DESKTOP OVERRIDES  (≥ 600px)
+   ============================================== */
 @media (min-width: 600px) {
+  /* Centered card instead of bottom sheet */
+  .backdrop {
+    align-items: center;
+    padding: 20px;
+  }
+
+  .modal {
+    border-radius: 20px;
+    max-width: 640px;
+    max-height: calc(100vh - 40px);
+    animation: modalIn 320ms cubic-bezier(0.34, 1.4, 0.64, 1);
+    box-shadow: 0 32px 80px rgba(0, 30, 90, 0.3);
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(24px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Hide drag handle on desktop */
+  .dragHandle { display: none; }
+
+  /* Header — side by side on desktop */
   .invoiceHeader {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     padding: 22px 28px 18px;
+    gap: 12px;
   }
 
-  .brandLogo {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
+  .brandLogo { width: 44px; height: 44px; border-radius: 12px; }
+  .brandName { font-size: 1rem; }
+  .brandTagline { font-size: 0.68rem; }
+
+  .invoiceMeta {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
   }
 
-  .brandName {
-    font-size: 1rem;
-  }
+  .invoiceTitle { font-size: 0.62rem; }
+  .invoiceNo { font-size: 1.05rem; }
 
-  .brandTagline {
-    font-size: 0.68rem;
-  }
+  /* Details row — 4 columns */
+  .detailsRow { grid-template-columns: repeat(4, 1fr); }
+  .detailBox:nth-child(n+3) { border-top: none; }
+  .detailBox:last-child { border-right: none; }
+  .detailBox { padding: 12px 18px; }
+  .detailLabel { font-size: 0.62rem; }
+  .detailValue { font-size: 0.82rem; }
 
-  .invoiceNo {
-    font-size: 1.05rem;
-  }
+  /* Bill to */
+  .billToRow { padding: 14px 28px; }
+  .billName { font-size: 0.86rem; }
+  .billSub { font-size: 0.72rem; word-break: normal; }
 
-  .billToRow {
-    padding: 14px 28px;
-  }
+  /* Table — show unit price column on desktop */
+  .tableWrapper { padding: 0 28px; }
+  .table { table-layout: auto; }
 
-  .tableWrapper {
-    padding: 0 28px;
-  }
+  .thUnitPrice { display: table-cell; }
+  .tdUnitPrice { display: table-cell; }
 
-  .table {
-    min-width: unset;
-  }
+  .thItem { width: 36px; }
+  .thNum  { width: auto; }
 
-  .tableHead th {
-    padding: 10px 12px;
-    font-size: 0.65rem;
-  }
+  .tableHead th { padding: 10px 12px; font-size: 0.65rem; }
+  .tdIdx, .tdMed, .tdNum, .tdTotal { padding: 11px 12px; }
 
-  .tdIdx, .tdMed, .tdNum, .tdTotal {
-    padding: 11px 12px;
-  }
+  .medName { font-size: 0.84rem; white-space: normal; }
 
-  .medDesc {
-    max-width: none;
-  }
+  /* On desktop the sub-line in tdMed shows the description, not qty×price */
+  .medMetaMobile { display: none; }
+  .medMetaDesktop { display: block; }
 
-  .totalsSection {
-    padding: 14px 28px 10px;
-  }
+  /* Totals */
+  .totalsSection { padding: 14px 28px 10px; }
+  .totalLabel, .totalValue { font-size: 0.82rem; }
 
-  .termsBlock {
-    margin: 10px 28px 0;
-  }
+  /* Terms & footer */
+  .termsBlock { margin: 10px 28px 0; }
+  .footerNote { margin: 10px 28px 0; }
 
-  .footerNote {
-    margin: 10px 28px 0;
-  }
-
+  /* Actions — side by side on desktop */
   .actions {
+    flex-direction: row;
     padding: 14px 28px 24px;
   }
 
-  .printBtn {
-    height: 46px;
-    font-size: 0.85rem;
-  }
-
-  .closeBtn {
-    height: 46px;
-    font-size: 0.9rem;
-  }
+  .printBtn { width: auto; flex: 1; min-width: 130px; }
+  .closeBtn { width: auto; flex: 2; min-width: 140px; height: 46px; }
 }

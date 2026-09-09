@@ -74,7 +74,7 @@ function getBotReply(userText) {
 
 let msgIdCounter = 100
 
-export default function Chatbot() {
+export default function Chatbot({ isModalOpen = false }) {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState(INITIAL_MESSAGES)
   const [input, setInput] = useState('')
@@ -154,6 +154,8 @@ export default function Chatbot() {
       i % 2 === 1 ? <strong key={i}>{part}</strong> : part
     )
   }
+
+  if (isModalOpen) return null
 
   return (
     <div className={styles.chatbotRoot}>
