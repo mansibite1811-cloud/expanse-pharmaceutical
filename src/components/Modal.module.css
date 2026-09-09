@@ -1,100 +1,106 @@
-/* =========================================
-   INVOICE / QUOTATION MODAL STYLES
-   Mobile-first, then desktop overrides
-   ========================================= */
+/* ============================================================
+   QUOTATION MODAL — clean, reliable, mobile-first
+   ============================================================ */
 
-/* ── Backdrop ── */
+/* ── Backdrop ─────────────────────────────────────────────── */
 .backdrop {
   position: fixed;
-  inset: 0;
-  background: rgba(0, 20, 60, 0.65);
+  inset: 0;                         /* covers 100vw × 100vh exactly */
+  background: rgba(5, 18, 50, 0.7);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  display: flex;
-  align-items: flex-end;          /* bottom-sheet on mobile */
-  justify-content: center;
   z-index: 1000;
-  padding: 0;
-  animation: backdropIn 220ms ease;
-  overflow: hidden;
+
+  /* Centre the card both axes on ALL screen sizes */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Breathing room so card never touches viewport edges */
+  padding: 12px;
+
+  animation: fadeIn 200ms ease;
+  overflow-y: auto;                 /* if viewport is shorter than card */
+  -webkit-overflow-scrolling: touch;
 }
 
-@keyframes backdropIn {
+@keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-/* ── Modal shell ── */
-.modal {
-  background: #FFFFFF;
-  border-radius: 22px 22px 0 0;
-  box-shadow: 0 -8px 40px rgba(0, 30, 90, 0.25);
+/* ── Card ──────────────────────────────────────────────────── */
+.card {
+  /* Sizing */
   width: 100%;
-  max-width: 100%;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  /* 90vh leaves some backdrop visible so user sees the close affordance */
-  max-height: 90vh;
+  max-width: 520px;
+  /* Never taller than the viewport minus the 24px padding (12+12) */
+  max-height: calc(100vh - 24px);
+
+  /* Inner scroll — the card itself scrolls, header stays at top */
   overflow-y: auto;
   overflow-x: hidden;
-  animation: sheetUp 300ms cubic-bezier(0.32, 1.1, 0.64, 1);
   -webkit-overflow-scrolling: touch;
-}
 
-@keyframes sheetUp {
-  from { opacity: 0; transform: translateY(50px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+  /* Visual */
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 20, 70, 0.35);
 
-/* ── Drag handle ── */
-.dragHandle {
-  width: 40px;
-  height: 4px;
-  background: rgba(255,255,255,0.45);
-  border-radius: 9999px;
-  margin: 10px auto 6px;
-  flex-shrink: 0;
-}
-
-/* ==============================================
-   INVOICE HEADER
-   Mobile: stacked vertically (brand → quot no.)
-   Desktop: side-by-side
-   ============================================== */
-.invoiceHeader {
+  /* Flex column so header + body stack naturally */
   display: flex;
-  flex-direction: column;       /* stack on mobile */
-  gap: 0;
-  padding: 16px 16px 14px;
-  background: linear-gradient(135deg, #0D2B6B 0%, #0057A8 60%, #0071CE 100%);
-  flex-shrink: 0;
+  flex-direction: column;
+
+  animation: slideIn 280ms cubic-bezier(0.32, 1.1, 0.64, 1);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* ── Blue Invoice Header ───────────────────────────────────── */
+.header {
+  flex-shrink: 0;                   /* never squished */
+  background: linear-gradient(140deg, #0a2561 0%, #0057a8 55%, #0072d6 100%);
+  border-radius: 18px 18px 0 0;    /* matches card top corners */
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* Brand row */
-.brandBlock {
+.brandRow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   min-width: 0;
 }
 
 .brandLogo {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
   background: rgba(255,255,255,0.18);
-  border-radius: 9px;
+  border: 1.5px solid rgba(255,255,255,0.28);
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  border: 1.5px solid rgba(255,255,255,0.25);
+}
+
+.brandText {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .brandName {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 800;
-  color: #FFFFFF;
+  color: #fff;
   letter-spacing: -0.01em;
   line-height: 1.2;
   white-space: nowrap;
@@ -103,307 +109,353 @@
 }
 
 .brandTagline {
-  font-size: 0.6rem;
-  color: rgba(255,255,255,0.65);
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.68);
   font-weight: 400;
-  margin-top: 1px;
   white-space: nowrap;
 }
 
-/* Quotation meta — shown as a compact one-liner below brand on mobile */
-.invoiceMeta {
+/* Quotation number row */
+.quotRow {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 8px;
   padding-top: 10px;
-  border-top: 1px solid rgba(255,255,255,0.18);
+  border-top: 1px solid rgba(255,255,255,0.2);
+  flex-wrap: wrap;
 }
 
-.invoiceTitle {
-  font-size: 0.6rem;
+.quotLabel {
+  font-size: 0.58rem;
   font-weight: 800;
   color: rgba(255,255,255,0.6);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
-.invoiceNo {
-  font-size: 0.85rem;
+.quotNo {
+  font-size: 0.9rem;
   font-weight: 700;
-  color: #FFFFFF;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
+  color: #fff;
+  letter-spacing: 0.02em;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* ── Details Row ── */
-.detailsRow {
+/* ── Body (scrollable area below header) ───────────────────── */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* No overflow here — the card itself scrolls */
+}
+
+/* ── Details grid ─────────────────────────────────────────── */
+.detailsGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;   /* 2-col on mobile */
-  border-bottom: 1px solid #E8EDF6;
-  flex-shrink: 0;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #e8edf6;
 }
 
-.detailBox {
+.detailCell {
   padding: 10px 14px;
-  border-right: 1px solid #E8EDF6;
+  border-right: 1px solid #e8edf6;
 }
-
-/* Remove right border on the second column of each row */
-.detailBox:nth-child(2n) { border-right: none; }
-/* Add top border from the 3rd item onward */
-.detailBox:nth-child(n+3) { border-top: 1px solid #E8EDF6; }
+.detailCell:nth-child(2n) { border-right: none; }
+.detailCell:nth-child(n+3) { border-top: 1px solid #e8edf6; }
 
 .detailLabel {
-  font-size: 0.56rem;
+  font-size: 0.55rem;
   font-weight: 700;
-  color: #8A99B5;
+  color: #8a99b5;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 2px;
+  letter-spacing: 0.09em;
+  margin-bottom: 3px;
 }
 
 .detailValue {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #0D1B3E;
+  color: #0d1b3e;
+  line-height: 1.3;
 }
 
-.statusBadge {
+.statusPill {
   display: inline-block;
-  background: #FFF3E0;
-  color: #E65100;
-  border: 1px solid #FFCC80;
-  padding: 1px 7px;
+  background: #fff3e0;
+  color: #e65100;
+  border: 1px solid #ffcc80;
+  padding: 2px 8px;
   border-radius: 9999px;
   font-size: 0.62rem;
   font-weight: 700;
 }
 
-/* ── Bill To Row ── */
-.billToRow {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 11px 16px;
-  flex-wrap: nowrap;
+/* ── Dividers ─────────────────────────────────────────────── */
+.rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4def0, transparent);
   flex-shrink: 0;
 }
 
-.billBlock {
+.thinRule {
+  height: 1px;
+  background: #e8edf6;
+  margin: 6px 0;
+}
+
+/* ── Bill to / From ───────────────────────────────────────── */
+.billRow {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.billSide {
   flex: 1;
   min-width: 0;
 }
 
-.billBlock:last-child {
+.billRight {
   text-align: right;
 }
 
 .billLabel {
-  font-size: 0.56rem;
+  font-size: 0.55rem;
   font-weight: 700;
-  color: #8A99B5;
+  color: #8a99b5;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   margin-bottom: 3px;
 }
 
 .billName {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  color: #0D1B3E;
+  color: #0d1b3e;
   line-height: 1.3;
 }
 
 .billSub {
-  font-size: 0.64rem;
-  color: #5A6A8A;
-  margin-top: 1px;
+  font-size: 0.65rem;
+  color: #5a6a8a;
   line-height: 1.5;
-  word-break: break-all;
+  word-break: break-word;
 }
 
-/* ── Dividers ── */
-.divider {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #D4DEF0, transparent);
-  flex-shrink: 0;
-}
-
-.dividerThin {
-  width: 100%;
-  height: 1px;
-  background: #E8EDF6;
-  margin: 6px 0;
-}
-
-/* ── Table wrapper ── */
-.tableWrapper {
+/* ── MOBILE ITEM CARDS (shown < 560px) ───────────────────── */
+.itemCards {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   padding: 0 14px;
-  overflow-x: hidden;      /* no horizontal scroll — we hide columns instead */
-  flex-shrink: 0;
-  width: 100%;
 }
 
-/* ── Table ── */
+.itemCard {
+  padding: 10px 0;
+  border-bottom: 1px solid #eef2fa;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.itemCardTop {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.itemIdx {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0057a8, #003e7e);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.itemCardInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemCardName {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #0d1b3e;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.itemCardDesc {
+  font-size: 0.68rem;
+  color: #8a99b5;
+  margin-top: 1px;
+}
+
+.itemCardBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 28px;
+}
+
+.itemCardMeta {
+  font-size: 0.72rem;
+  color: #5a6a8a;
+}
+
+.itemCardMeta strong {
+  color: #0057a8;
+}
+
+.itemCardTotal {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0d1b3e;
+}
+
+/* ── DESKTOP TABLE (hidden on mobile) ─────────────────────── */
+.tableWrap {
+  display: none;   /* hidden on mobile; shown ≥ 560px */
+  padding: 0 20px;
+  overflow-x: auto;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.8rem;
-  table-layout: fixed;     /* columns honour declared widths */
+  font-size: 0.82rem;
 }
 
-.tableHead {
-  background: #F4F7FC;
-}
-
-.tableHead th {
-  padding: 8px 8px;
-  font-size: 0.58rem;
+.table thead th {
+  padding: 9px 10px;
+  font-size: 0.6rem;
   font-weight: 700;
-  color: #5A6A8A;
+  color: #5a6a8a;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  border-bottom: 2px solid #D4DEF0;
+  letter-spacing: 0.07em;
+  border-bottom: 2px solid #d4def0;
+  background: #f4f7fc;
   white-space: nowrap;
-  overflow: hidden;
 }
 
-/* Column widths (mobile, no unit-price col) */
-.thItem  { text-align: center; width: 26px; }
-.thMed   { text-align: left; }          /* flex: takes remaining space */
-.thNum   { text-align: right; width: 44px; }
+.thIdx   { text-align: center; width: 30px; }
+.thMed   { text-align: left; }
+.thRight { text-align: right; }
 
-/* Unit price column — hidden on mobile, shown on wider screens */
-.thUnitPrice { display: none; }
-.tdUnitPrice { display: none; }
+.rowEven { background: #ffffff; }
+.rowOdd  { background: #fafbfe; }
 
-.tableRow { transition: background 150ms ease; }
-.rowEven  { background: #FFFFFF; }
-.rowOdd   { background: #FAFBFE; }
-.tableRow:hover { background: #F0F5FF; }
+.table tbody td { border-bottom: 1px solid #eef2fa; }
 
 .tdIdx {
   text-align: center;
-  padding: 9px 4px;
-  font-size: 0.64rem;
+  padding: 10px 6px;
+  font-size: 0.68rem;
   font-weight: 700;
-  color: #8A99B5;
-  border-bottom: 1px solid #EEF2FA;
-  vertical-align: middle;
+  color: #8a99b5;
 }
 
 .tdMed {
-  padding: 9px 8px;
-  border-bottom: 1px solid #EEF2FA;
-  overflow: hidden;
+  padding: 10px;
 }
 
-.medName {
+.tdMedName {
   font-weight: 600;
-  color: #0D1B3E;
-  line-height: 1.3;
-  font-size: 0.78rem;
+  color: #0d1b3e;
+  font-size: 0.82rem;
+}
+
+.tdMedDesc {
+  font-size: 0.65rem;
+  color: #8a99b5;
+  margin-top: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 200px;
 }
 
-/* On mobile: show "qty × $price" as a sub-line in the name cell */
-.medMeta {
-  font-size: 0.62rem;
-  color: #8A99B5;
-  margin-top: 1px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* This sub-line only visible on mobile (unit price col is hidden) */
-.medMetaMobile { display: block; }
-.medMetaDesktop { display: none; }
-
-.tdNum {
+.tdRight {
   text-align: right;
-  padding: 9px 8px;
-  color: #3A4A6A;
+  padding: 10px 10px;
+  color: #3a4a6a;
   font-weight: 500;
-  border-bottom: 1px solid #EEF2FA;
   white-space: nowrap;
-  vertical-align: middle;
+}
+
+.tdTotal {
+  font-weight: 700;
+  color: #0d1b3e;
 }
 
 .qtyChip {
   display: inline-block;
-  background: #EBF2FF;
-  color: #0057A8;
+  background: #ebf2ff;
+  color: #0057a8;
   border-radius: 5px;
   padding: 1px 6px;
   font-weight: 700;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
 }
 
-.tdTotal {
-  text-align: right;
-  padding: 9px 8px;
-  font-weight: 700;
-  color: #0D1B3E;
-  border-bottom: 1px solid #EEF2FA;
-  white-space: nowrap;
-  vertical-align: middle;
-}
-
-/* ── Totals ── */
-.totalsSection {
-  padding: 11px 14px 8px;
+/* ── Totals ───────────────────────────────────────────────── */
+.totals {
+  padding: 12px 16px 8px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  flex-shrink: 0;
 }
 
 .totalRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2px 0;
   gap: 8px;
 }
 
 .totalLabel {
-  font-size: 0.78rem;
-  color: #5A6A8A;
+  font-size: 0.8rem;
+  color: #5a6a8a;
   font-weight: 500;
 }
 
-.totalValue {
-  font-size: 0.78rem;
-  color: #0D1B3E;
+.totalAmt {
+  font-size: 0.8rem;
+  color: #0d1b3e;
   font-weight: 600;
   white-space: nowrap;
 }
 
 .grandRow {
-  padding: 11px 14px;
-  background: linear-gradient(135deg, #0D2B6B 0%, #0057A8 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, #0a2561, #0057a8);
   border-radius: 12px;
   margin-top: 4px;
+  flex-wrap: wrap;
 }
 
 .grandLabel {
-  font-size: 0.82rem;
-  color: rgba(255,255,255,0.9);
+  font-size: 0.85rem;
   font-weight: 700;
+  color: rgba(255,255,255,0.9);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   flex-wrap: wrap;
-  min-width: 0;
 }
 
 .currencyTag {
@@ -413,229 +465,177 @@
   color: rgba(255,255,255,0.9);
   padding: 2px 5px;
   border-radius: 4px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   white-space: nowrap;
 }
 
-.grandValue {
-  font-size: clamp(0.95rem, 3.5vw, 1.2rem);
-  color: #FFFFFF;
+.grandAmt {
+  font-size: clamp(1rem, 4vw, 1.2rem);
   font-weight: 800;
+  color: #fff;
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
 
-/* ── Terms ── */
-.termsBlock {
+/* ── Terms ────────────────────────────────────────────────── */
+.terms {
   margin: 8px 14px 0;
   padding: 10px 12px;
-  background: #F8FAFF;
-  border: 1px solid #D4DEF0;
+  background: #f8faff;
+  border: 1px solid #d4def0;
   border-radius: 10px;
-  flex-shrink: 0;
 }
 
 .termsTitle {
   font-size: 0.58rem;
   font-weight: 800;
-  color: #5A6A8A;
+  color: #5a6a8a;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 5px;
 }
 
 .termsList {
-  margin: 0;
   padding-left: 14px;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
 .termsList li {
-  font-size: 0.66rem;
-  color: #6A7A9A;
-  line-height: 1.5;
+  font-size: 0.65rem;
+  color: #6a7a9a;
+  line-height: 1.55;
 }
 
-/* ── Footer Note ── */
-.footerNote {
+/* ── Info note ────────────────────────────────────────────── */
+.infoNote {
   display: flex;
   align-items: flex-start;
   gap: 7px;
   margin: 8px 14px 0;
   padding: 9px 12px;
-  background: #EBF2FF;
+  background: #ebf2ff;
+  border: 1px solid #c5d4ea;
   border-radius: 10px;
-  border: 1px solid #C5D4EA;
-  color: #0057A8;
-  flex-shrink: 0;
+  color: #0057a8;
 }
 
-.footerNote svg { flex-shrink: 0; margin-top: 1px; }
-
-.footerNote span {
+.infoNote span {
   font-size: 0.7rem;
   font-weight: 500;
   line-height: 1.45;
 }
 
-/* ── Actions (buttons) ── */
+/* ── Action buttons ───────────────────────────────────────── */
 .actions {
   display: flex;
-  flex-direction: column;        /* stack on mobile */
+  flex-direction: column;
   gap: 9px;
-  padding: 12px 14px 20px;
-  padding-bottom: max(20px, env(safe-area-inset-bottom));
-  flex-shrink: 0;
+  padding: 12px 14px 18px;
+  /* Safe-area bottom padding for iPhone home bar */
+  padding-bottom: max(18px, env(safe-area-inset-bottom, 18px));
 }
 
 .printBtn {
   width: 100%;
-  height: 46px;
-  background: #F4F7FC;
-  color: #0D1B3E;
-  border: 2px solid #D4DEF0;
+  height: 48px;
+  background: #f4f7fc;
+  color: #0d1b3e;
+  border: 2px solid #d4def0;
   border-radius: 12px;
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
-  transition: border-color 200ms ease, background 200ms ease;
-  white-space: nowrap;
+  transition: border-color 180ms, background 180ms;
   touch-action: manipulation;
+  white-space: nowrap;
 }
 
 .printBtn:hover {
-  border-color: #9BB8DC;
-  background: #EBF2FF;
+  border-color: #9bb8dc;
+  background: #ebf2ff;
 }
 
 .closeBtn {
   width: 100%;
-  height: 50px;
-  background: linear-gradient(135deg, #0057A8 0%, #003E7E 100%);
-  color: #FFFFFF;
+  height: 52px;
+  background: linear-gradient(135deg, #0057a8, #003e7e);
+  color: #fff;
   border: none;
   border-radius: 12px;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  font-family: inherit;
   cursor: pointer;
-  transition: opacity 200ms ease, transform 150ms ease, box-shadow 200ms ease;
-  box-shadow: 0 4px 16px rgba(0, 87, 168, 0.3);
-  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,87,168,0.35);
+  transition: opacity 180ms, transform 150ms, box-shadow 180ms;
   touch-action: manipulation;
+  white-space: nowrap;
 }
 
 .closeBtn:hover {
   opacity: 0.92;
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 87, 168, 0.4);
+  box-shadow: 0 6px 22px rgba(0,87,168,0.45);
 }
 
 .closeBtn:active { transform: translateY(0); }
 
-/* ==============================================
-   DESKTOP OVERRIDES  (≥ 600px)
-   ============================================== */
-@media (min-width: 600px) {
-  /* Centered card instead of bottom sheet */
+/* ============================================================
+   DESKTOP OVERRIDES  (≥ 560px)
+   ============================================================ */
+@media (min-width: 560px) {
   .backdrop {
-    align-items: center;
     padding: 20px;
+    align-items: center;
   }
 
-  .modal {
-    border-radius: 20px;
+  .card {
     max-width: 640px;
     max-height: calc(100vh - 40px);
-    animation: modalIn 320ms cubic-bezier(0.34, 1.4, 0.64, 1);
-    box-shadow: 0 32px 80px rgba(0, 30, 90, 0.3);
   }
 
-  @keyframes modalIn {
-    from { opacity: 0; transform: scale(0.9) translateY(24px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  /* Hide drag handle on desktop */
-  .dragHandle { display: none; }
-
-  /* Header — side by side on desktop */
-  .invoiceHeader {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  .header {
     padding: 22px 28px 18px;
-    gap: 12px;
   }
 
   .brandLogo { width: 44px; height: 44px; border-radius: 12px; }
-  .brandName { font-size: 1rem; }
+  .brandName { font-size: 1.05rem; }
   .brandTagline { font-size: 0.68rem; }
+  .quotNo { font-size: 1rem; }
 
-  .invoiceMeta {
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2px;
-    margin-top: 0;
-    padding-top: 0;
-    border-top: none;
-  }
-
-  .invoiceTitle { font-size: 0.62rem; }
-  .invoiceNo { font-size: 1.05rem; }
-
-  /* Details row — 4 columns */
-  .detailsRow { grid-template-columns: repeat(4, 1fr); }
-  .detailBox:nth-child(n+3) { border-top: none; }
-  .detailBox:last-child { border-right: none; }
-  .detailBox { padding: 12px 18px; }
-  .detailLabel { font-size: 0.62rem; }
+  .detailsGrid { grid-template-columns: repeat(4, 1fr); }
+  .detailCell:nth-child(n+3) { border-top: none; }
+  .detailCell:last-child { border-right: none; }
+  .detailCell { padding: 12px 18px; }
+  .detailLabel { font-size: 0.6rem; }
   .detailValue { font-size: 0.82rem; }
 
-  /* Bill to */
-  .billToRow { padding: 14px 28px; }
-  .billName { font-size: 0.86rem; }
-  .billSub { font-size: 0.72rem; word-break: normal; }
+  .billRow { padding: 14px 28px; }
+  .billSub { word-break: normal; }
 
-  /* Table — show unit price column on desktop */
-  .tableWrapper { padding: 0 28px; }
-  .table { table-layout: auto; }
+  /* Hide mobile cards, show desktop table */
+  .itemCards { display: none; }
+  .tableWrap { display: block; }
 
-  .thUnitPrice { display: table-cell; }
-  .tdUnitPrice { display: table-cell; }
+  .totals { padding: 14px 28px 10px; }
+  .grandRow { padding: 12px 18px; }
 
-  .thItem { width: 36px; }
-  .thNum  { width: auto; }
+  .terms { margin: 10px 28px 0; }
+  .infoNote { margin: 10px 28px 0; }
 
-  .tableHead th { padding: 10px 12px; font-size: 0.65rem; }
-  .tdIdx, .tdMed, .tdNum, .tdTotal { padding: 11px 12px; }
-
-  .medName { font-size: 0.84rem; white-space: normal; }
-
-  /* On desktop the sub-line in tdMed shows the description, not qty×price */
-  .medMetaMobile { display: none; }
-  .medMetaDesktop { display: block; }
-
-  /* Totals */
-  .totalsSection { padding: 14px 28px 10px; }
-  .totalLabel, .totalValue { font-size: 0.82rem; }
-
-  /* Terms & footer */
-  .termsBlock { margin: 10px 28px 0; }
-  .footerNote { margin: 10px 28px 0; }
-
-  /* Actions — side by side on desktop */
   .actions {
     flex-direction: row;
     padding: 14px 28px 24px;
   }
 
   .printBtn { width: auto; flex: 1; min-width: 130px; }
-  .closeBtn { width: auto; flex: 2; min-width: 140px; height: 46px; }
+  .closeBtn { width: auto; flex: 2; min-width: 160px; height: 48px; }
 }
