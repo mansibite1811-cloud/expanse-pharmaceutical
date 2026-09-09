@@ -1,0 +1,291 @@
+/* =========================================
+   APP-LEVEL STYLES
+   ========================================= */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #F4F7FC;
+}
+
+/* ── Main ── */
+.main {
+  flex: 1;
+  padding-bottom: 32px;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── Hero Section ── */
+.hero {
+  padding: 32px 0 24px;
+  text-align: center;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 87, 168, 0.08);
+  color: #0057A8;
+  border: 1px solid rgba(0, 87, 168, 0.2);
+  border-radius: 9999px;
+  padding: 5px 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.heroTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0D1B3E;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.heroSubtitle {
+  font-size: 0.95rem;
+  color: #5A6A8A;
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+/* ── Controls Row ── */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.selectionSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Count Badge */
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  background: #FFFFFF;
+  border: 1.5px solid #D4DEF0;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  color: #5A6A8A;
+  font-weight: 500;
+  transition: border-color 250ms ease, background 250ms ease, color 250ms ease;
+}
+
+.countBadge strong {
+  color: #0D1B3E;
+  font-weight: 700;
+}
+
+.countBadgeActive {
+  border-color: #0057A8;
+  background: #E8F1FB;
+  color: #0057A8;
+}
+
+.countBadgeActive strong {
+  color: #0057A8;
+}
+
+/* Clear All Button */
+.clearAllBtn {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #8A99B5;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.clearAllBtn:hover {
+  background: #EEF3FA;
+  color: #0D1B3E;
+}
+
+/* ── Medicine Grid ── */
+.listSection {
+  /* Container for the list */
+}
+
+.medicineGrid {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Empty State ── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  gap: 10px;
+}
+
+.emptyTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #5A6A8A;
+  margin-top: 8px;
+}
+
+.emptyText {
+  font-size: 0.85rem;
+  color: #8A99B5;
+}
+
+/* ── Spacer for sticky bar ── */
+.stickySpacing {
+  height: 100px;
+}
+
+/* ── Sticky Bottom Bar ── */
+.stickyBar {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid #D4DEF0;
+  box-shadow: 0 -4px 24px rgba(0, 40, 100, 0.1);
+  z-index: 90;
+  padding: 14px 20px;
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
+}
+
+.stickyBarInner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.stickyCount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.stickyCountPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  background: linear-gradient(135deg, #0057A8, #003E7E);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  border-radius: 9999px;
+}
+
+.stickyCountText {
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: #5A6A8A;
+  white-space: nowrap;
+}
+
+/* Request Quotation Button */
+.quotationBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 52px;
+  padding: 0 28px;
+  background: linear-gradient(135deg, #0057A8 0%, #003E7E 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 87, 168, 0.35);
+  transition: opacity 200ms ease, transform 150ms ease, box-shadow 200ms ease;
+  white-space: nowrap;
+  flex: 1;
+  max-width: 300px;
+}
+
+.quotationBtn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(0, 87, 168, 0.45);
+}
+
+.quotationBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.quotationBtn:disabled {
+  background: linear-gradient(135deg, #B0BEC5, #90A4AE);
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* ── Responsive Adjustments ── */
+@media (max-width: 600px) {
+  .heroTitle {
+    font-size: 1.6rem;
+  }
+
+  .hero {
+    padding: 24px 0 18px;
+  }
+
+  .stickyBarInner {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .quotationBtn {
+    width: 100%;
+    max-width: none;
+    height: 54px;
+    font-size: 1rem;
+  }
+
+  .stickyCount {
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    padding: 0 14px;
+  }
+
+  .heroTitle {
+    font-size: 1.4rem;
+  }
+}

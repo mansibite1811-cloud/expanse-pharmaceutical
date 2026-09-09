@@ -1,0 +1,502 @@
+/* =========================================
+   INVOICE / QUOTATION MODAL STYLES
+   ========================================= */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 20, 60, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: backdropIn 250ms ease;
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal {
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 32px 80px rgba(0, 30, 90, 0.3);
+  width: 100%;
+  max-width: 640px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  animation: modalIn 320ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(24px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ── Invoice Header ── */
+.invoiceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px 20px;
+  background: linear-gradient(135deg, #0D2B6B 0%, #0057A8 60%, #0071CE 100%);
+  border-radius: 20px 20px 0 0;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brandBlock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandLogo {
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.25);
+}
+
+.brandName {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.brandTagline {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+.invoiceMeta {
+  text-align: right;
+}
+
+.invoiceTitle {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.invoiceNo {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+}
+
+/* ── Details Row ── */
+.detailsRow {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #E8EDF6;
+}
+
+.detailBox {
+  flex: 1;
+  padding: 14px 18px;
+  border-right: 1px solid #E8EDF6;
+}
+
+.detailBox:last-child {
+  border-right: none;
+}
+
+.detailLabel {
+  font-size: 0.63rem;
+  font-weight: 700;
+  color: #8A99B5;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 3px;
+}
+
+.detailValue {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #0D1B3E;
+}
+
+.statusBadge {
+  display: inline-block;
+  background: #FFF3E0;
+  color: #E65100;
+  border: 1px solid #FFCC80;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* ── Bill To Row ── */
+.billToRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 28px;
+  flex-wrap: wrap;
+}
+
+.billBlock {
+  flex: 1;
+  min-width: 140px;
+}
+
+.billLabel {
+  font-size: 0.63rem;
+  font-weight: 700;
+  color: #8A99B5;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.billName {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0D1B3E;
+  line-height: 1.3;
+}
+
+.billSub {
+  font-size: 0.74rem;
+  color: #5A6A8A;
+  margin-top: 1px;
+  line-height: 1.5;
+}
+
+/* ── Dividers ── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D4DEF0, transparent);
+}
+
+.dividerThin {
+  width: 100%;
+  height: 1px;
+  background: #E8EDF6;
+  margin: 8px 0;
+}
+
+/* ── Table ── */
+.tableWrapper {
+  padding: 0 28px;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.tableHead {
+  background: #F4F7FC;
+}
+
+.tableHead th {
+  padding: 10px 12px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #5A6A8A;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-bottom: 2px solid #D4DEF0;
+}
+
+.thItem { text-align: center; width: 36px; }
+.thMed  { text-align: left; }
+.thNum  { text-align: right; }
+
+.tableRow {
+  transition: background 150ms ease;
+}
+
+.rowEven { background: #FFFFFF; }
+.rowOdd  { background: #FAFBFE; }
+
+.tableRow:hover { background: #F0F5FF; }
+
+.tdIdx {
+  text-align: center;
+  padding: 11px 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #8A99B5;
+  border-bottom: 1px solid #EEF2FA;
+}
+
+.tdMed {
+  padding: 11px 12px;
+  border-bottom: 1px solid #EEF2FA;
+  min-width: 180px;
+}
+
+.medName {
+  font-weight: 600;
+  color: #0D1B3E;
+  line-height: 1.3;
+  font-size: 0.84rem;
+}
+
+.medDesc {
+  font-size: 0.7rem;
+  color: #8A99B5;
+  margin-top: 2px;
+}
+
+.tdNum {
+  text-align: right;
+  padding: 11px 12px;
+  color: #3A4A6A;
+  font-weight: 500;
+  border-bottom: 1px solid #EEF2FA;
+  white-space: nowrap;
+}
+
+.qtyChip {
+  display: inline-block;
+  background: #EBF2FF;
+  color: #0057A8;
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.tdTotal {
+  text-align: right;
+  padding: 11px 12px;
+  font-weight: 700;
+  color: #0D1B3E;
+  border-bottom: 1px solid #EEF2FA;
+  white-space: nowrap;
+}
+
+/* ── Totals ── */
+.totalsSection {
+  padding: 14px 28px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0;
+}
+
+.totalLabel {
+  font-size: 0.82rem;
+  color: #5A6A8A;
+  font-weight: 500;
+}
+
+.totalValue {
+  font-size: 0.82rem;
+  color: #0D1B3E;
+  font-weight: 600;
+}
+
+.grandRow {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #0D2B6B 0%, #0057A8 100%);
+  border-radius: 12px;
+  margin-top: 4px;
+}
+
+.grandLabel {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.9);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.currencyTag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  background: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.9);
+  padding: 2px 6px;
+  border-radius: 5px;
+  letter-spacing: 0.05em;
+}
+
+.grandValue {
+  font-size: 1.25rem;
+  color: #FFFFFF;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* ── Terms ── */
+.termsBlock {
+  margin: 10px 28px 0;
+  padding: 12px 16px;
+  background: #F8FAFF;
+  border: 1px solid #D4DEF0;
+  border-radius: 10px;
+}
+
+.termsTitle {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #5A6A8A;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.termsList {
+  margin: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.termsList li {
+  font-size: 0.72rem;
+  color: #6A7A9A;
+  line-height: 1.5;
+}
+
+/* ── Footer Note ── */
+.footerNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 12px 28px 0;
+  padding: 10px 14px;
+  background: #EBF2FF;
+  border-radius: 10px;
+  border: 1px solid #C5D4EA;
+  color: #0057A8;
+}
+
+.footerNote svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.footerNote span {
+  font-size: 0.76rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ── Actions ── */
+.actions {
+  display: flex;
+  gap: 10px;
+  padding: 16px 28px 24px;
+  flex-wrap: wrap;
+}
+
+.printBtn {
+  flex: 1;
+  min-width: 130px;
+  height: 46px;
+  background: #F4F7FC;
+  color: #0D1B3E;
+  border: 2px solid #D4DEF0;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
+}
+
+.printBtn:hover {
+  border-color: #9BB8DC;
+  background: #EBF2FF;
+  box-shadow: 0 2px 10px rgba(0,87,168,0.1);
+}
+
+.closeBtn {
+  flex: 2;
+  min-width: 160px;
+  height: 46px;
+  background: linear-gradient(135deg, #0057A8 0%, #003E7E 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: opacity 200ms ease, transform 150ms ease, box-shadow 200ms ease;
+  box-shadow: 0 4px 16px rgba(0, 87, 168, 0.3);
+}
+
+.closeBtn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 87, 168, 0.4);
+}
+
+.closeBtn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 560px) {
+  .invoiceHeader {
+    padding: 20px 18px 16px;
+  }
+
+  .tableWrapper {
+    padding: 0 14px;
+  }
+
+  .totalsSection {
+    padding: 14px 14px 10px;
+  }
+
+  .billToRow,
+  .termsBlock,
+  .footerNote {
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+  .actions {
+    padding: 14px 14px 20px;
+  }
+
+  .detailBox {
+    padding: 10px 12px;
+  }
+
+  .grandValue {
+    font-size: 1.05rem;
+  }
+}
